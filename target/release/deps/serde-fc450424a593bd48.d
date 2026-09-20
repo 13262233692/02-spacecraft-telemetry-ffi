@@ -1,0 +1,14 @@
+/Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/deps/serde-fc450424a593bd48.d: /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/build/serde-bb2c6da458a47e09/out/private.rs
+
+/Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/deps/libserde-fc450424a593bd48.rlib: /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/build/serde-bb2c6da458a47e09/out/private.rs
+
+/Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/deps/libserde-fc450424a593bd48.rmeta: /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs /Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs /Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/build/serde-bb2c6da458a47e09/out/private.rs
+
+/Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/lib.rs:
+/Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/integer128.rs:
+/Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/mod.rs:
+/Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/de.rs:
+/Users/eden/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.229/src/private/ser.rs:
+/Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/build/serde-bb2c6da458a47e09/out/private.rs:
+
+# env-dep:OUT_DIR=/Users/eden/Desktop/20260919/02-spacecraft-telemetry-ffi-a/target/release/build/serde-bb2c6da458a47e09/out

@@ -1,0 +1,33 @@
+{
+  "name": "SAT-1 TM 主帧",
+  "total_bytes": 32,
+  "primary_header_bytes": 6,
+  "secondary_header": {
+    "start_byte": 6,
+    "fields": [
+      { "name": "timestamp_s", "byte_offset": 0, "bit_width": 32, "type": "uint", "unit": "s" },
+      { "name": "timestamp_sub", "byte_offset": 4, "bit_width": 16, "type": "uint", "unit": "1/65536s" }
+    ]
+  },
+  "data_field": {
+    "start_byte": 12,
+    "fields": [
+      { "name": "bus_voltage", "byte_offset": 0, "bit_width": 16, "type": "uint", "scale": 0.1, "unit": "V" },
+      { "name": "bus_current", "byte_offset": 2, "bit_width": 16, "type": "uint", "scale": 0.01, "unit": "A" },
+      { "name": "batt_temp", "byte_offset": 4, "bit_width": 16, "type": "int", "scale": 0.1, "unit": "°C" },
+      { "name": "batt_soc", "byte_offset": 6, "bit_width": 8, "type": "uint", "unit": "%" },
+      { "name": "solar_power", "byte_offset": 7, "bit_width": 16, "type": "uint", "unit": "W" },
+      { "name": "payload_mode", "byte_offset": 9, "bit_offset": 0, "bit_width": 2, "type": "enum",
+        "enum": { "0": "OFF", "1": "STANDBY", "2": "SCIENCE", "3": "SAFE" } },
+      { "name": "batt_heater", "byte_offset": 9, "bit_offset": 2, "bit_width": 1, "type": "enum",
+        "enum": { "0": "OFF", "1": "ON" } },
+      { "name": "adcs_mode", "byte_offset": 9, "bit_offset": 3, "bit_width": 3, "type": "enum",
+        "enum": { "0": "IDLE", "1": "DETUMBLE", "2": "NADIR", "3": "TARGET", "4": "SAFE" } },
+      { "name": "gyro_z", "byte_offset": 10, "bit_width": 16, "type": "int", "scale": 0.01, "unit": "°/s" },
+      { "name": "cpu_load", "byte_offset": 12, "bit_width": 8, "type": "uint", "unit": "%" },
+      { "name": "obc_error_count", "byte_offset": 13, "bit_width": 8, "type": "uint" },
+      { "name": "downlink_snr", "byte_offset": 14, "bit_width": 8, "type": "int", "bias": -100, "scale": 1, "unit": "dB" },
+      { "name": "frame_crc", "byte_offset": 16, "bit_width": 16, "type": "uint" }
+    ]
+  }
+}

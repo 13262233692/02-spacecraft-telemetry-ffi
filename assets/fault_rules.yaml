@@ -1,0 +1,75 @@
+rules:
+  - id: PWR-001
+    subsystem: power
+    severity: critical
+    message: "母线电压低于 24V，存在掉电风险"
+    when: { field: bus_voltage, op: lt, value: 24.0 }
+
+  - id: PWR-002
+    subsystem: power
+    severity: warning
+    message: "电池荷电状态低于 30%"
+    when: { field: batt_soc, op: lt, value: 30 }
+
+  - id: PWR-003
+    subsystem: power
+    severity: warning
+    message: "太阳阵输出功率低于 50W 且电池未充满"
+    when:
+      all:
+        - { field: solar_power, op: lt, value: 50 }
+        - { field: batt_soc, op: lt, value: 95 }
+
+  - id: THM-001
+    subsystem: thermal
+    severity: critical
+    message: "电池温度超过 45°C"
+    when: { field: batt_temp, op: gt, value: 45 }
+
+  - id: THM-002
+    subsystem: thermal
+    severity: warning
+    message: "电池温度低于 0°C 且加热器未开启"
+    when:
+      all:
+        - { field: batt_temp, op: lt, value: 0 }
+        - { field: batt_heater, op: eq, value: "OFF" }
+
+  - id: ADCS-001
+    subsystem: adcs
+    severity: critical
+    message: "姿态控制进入 SAFE 模式"
+    when: { field: adcs_mode, op: eq, value: "SAFE" }
+
+  - id: ADCS-002
+    subsystem: adcs
+    severity: warning
+    message: "Z 轴角速度异常（|ω| > 5 °/s）"
+    when:
+      any:
+        - { field: gyro_z, op: gt, value: 5 }
+        - { field: gyro_z, op: lt, value: -5 }
+
+  - id: OBC-001
+    subsystem: obc
+    severity: warning
+    message: "OBC 错误计数非零"
+    when: { field: obc_error_count, op: gt, value: 0 }
+
+  - id: OBC-002
+    subsystem: obc
+    severity: critical
+    message: "CPU 负载超过 90%"
+    when: { field: cpu_load, op: gt, value: 90 }
+
+  - id: COM-001
+    subsystem: comm
+    severity: warning
+    message: "下行信噪比低于 -85 dB"
+    when: { field: downlink_snr, op: lt, value: -85 }
+
+  - id: PL-001
+    subsystem: payload
+    severity: info
+    message: "载荷处于 SAFE 模式，科学数据暂停采集"
+    when: { field: payload_mode, op: in, value: ["SAFE", "OFF"] }
