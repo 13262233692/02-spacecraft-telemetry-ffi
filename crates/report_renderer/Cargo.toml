@@ -1,0 +1,10 @@
+[package]
+name = "report_renderer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+frame_parser = { path = "../frame_parser" }
+rule_engine = { path = "../rule_engine" }
+serde_json.workspace = true

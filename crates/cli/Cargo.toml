@@ -1,0 +1,18 @@
+[package]
+name = "tmctl"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "tmctl"
+path = "src/main.rs"
+
+[dependencies]
+frame_parser = { path = "../frame_parser" }
+rule_engine = { path = "../rule_engine" }
+report_renderer = { path = "../report_renderer" }
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+

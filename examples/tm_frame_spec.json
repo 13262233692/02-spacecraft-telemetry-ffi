@@ -1,0 +1,448 @@
+{
+  "name": "ExampleSat-1 TM Transfer Frame",
+  "description": "CCSDS 132.0-B TM transfer frame with secondary header and M_PDU space packets",
+  "transfer_frame_version": 0,
+  "frame_length_octets": 1115,
+  "asm": "1ACFFC1D",
+  "fill_byte": 229,
+  "sync_flag_bit": 32,
+  "fhp_bit": 37,
+  "primary_header": {
+    "length_octets": 6,
+    "fields": [
+      {
+        "name": "transfer_frame_version",
+        "offset": 0,
+        "bits": 2,
+        "description": "Transfer Frame Version Number (0 = TM)",
+        "enum_values": {
+          "0": "TM",
+          "1": "SSP"
+        }
+      },
+      {
+        "name": "spacecraft_id",
+        "offset": 2,
+        "bits": 10,
+        "description": "Spacecraft (Master Channel) Identifier",
+        "radix": "hex"
+      },
+      {
+        "name": "vcid",
+        "offset": 12,
+        "bits": 3,
+        "description": "Virtual Channel Identifier",
+        "enum_values": {
+          "0": "VC0_REALTIME",
+          "1": "VC1_STORE",
+          "7": "VC_IDLE"
+        }
+      },
+      {
+        "name": "secondary_header_flag",
+        "offset": 15,
+        "bits": 1,
+        "description": "Transfer Frame Secondary Header Flag",
+        "enum_values": {
+          "0": "ABSENT",
+          "1": "PRESENT"
+        }
+      },
+      {
+        "name": "master_frame_count",
+        "offset": 16,
+        "bits": 8,
+        "description": "Master Channel Frame Count"
+      },
+      {
+        "name": "vc_frame_count",
+        "offset": 24,
+        "bits": 8,
+        "description": "Virtual Channel Frame Count"
+      },
+      {
+        "name": "sync_flag",
+        "offset": 32,
+        "bits": 1,
+        "description": "Synchronisation Flag",
+        "enum_values": {
+          "0": "PACKET",
+          "1": "VCDU"
+        }
+      },
+      {
+        "name": "packet_order_flag",
+        "offset": 33,
+        "bits": 1,
+        "description": "Packet Order Flag",
+        "enum_values": {
+          "0": "IN_ORDER",
+          "1": "OUT_OF_ORDER"
+        }
+      },
+      {
+        "name": "segment_length_id",
+        "offset": 34,
+        "bits": 2,
+        "description": "Segment Length Identifier"
+      },
+      {
+        "name": "ocf_flag",
+        "offset": 36,
+        "bits": 1,
+        "description": "Operational Control Field Flag",
+        "enum_values": {
+          "0": "ABSENT",
+          "1": "PRESENT"
+        }
+      },
+      {
+        "name": "first_header_pointer",
+        "offset": 37,
+        "bits": 11,
+        "description": "First Header Pointer (0x7FE=idle data, 0x7FF=no packet start)",
+        "radix": "hex"
+      }
+    ]
+  },
+  "secondary_header": {
+    "presence_flag_bit": 15,
+    "length_bit": 4,
+    "length_bits": 10,
+    "length_mode": "data_minus_one",
+    "fields": [
+      {
+        "name": "sh_version",
+        "anchor": "frame_start",
+        "offset": 48,
+        "bits": 4,
+        "description": "Transfer Frame Secondary Header Version Number"
+      },
+      {
+        "name": "sh_length",
+        "anchor": "frame_start",
+        "offset": 52,
+        "bits": 10,
+        "description": "Transfer Frame Secondary Header Length"
+      },
+      {
+        "name": "sh_spare",
+        "anchor": "frame_start",
+        "offset": 62,
+        "bits": 2
+      },
+      {
+        "name": "sh_timestamp",
+        "anchor": "frame_start",
+        "offset": 64,
+        "bits": 48,
+        "description": "On-board time tag, milliseconds since epoch",
+        "radix": "hex"
+      },
+      {
+        "name": "sh_sc_mode",
+        "anchor": "frame_start",
+        "offset": 112,
+        "bits": 4,
+        "description": "Spacecraft operating mode",
+        "enum_values": {
+          "0": "SAFE",
+          "1": "IDLE",
+          "2": "NOMINAL",
+          "3": "MANEUVER",
+          "4": "CONTINGENCY"
+        }
+      },
+      {
+        "name": "sh_eps_mode",
+        "anchor": "frame_start",
+        "offset": 116,
+        "bits": 4,
+        "description": "Electrical power subsystem mode",
+        "enum_values": {
+          "0": "EPS_OFF",
+          "1": "EPS_BATT",
+          "2": "EPS_SUN",
+          "3": "EPS_ECLIPSE"
+        }
+      },
+      {
+        "name": "sh_batt_voltage",
+        "anchor": "frame_start",
+        "offset": 120,
+        "bits": 12,
+        "description": "Battery bus voltage (0..40.95 V)",
+        "signed": false,
+        "scale": 0.01,
+        "value_offset": 0,
+        "unit": "V"
+      },
+      {
+        "name": "sh_batt_current",
+        "anchor": "frame_start",
+        "offset": 132,
+        "bits": 12,
+        "description": "Battery current (positive = charging)",
+        "signed": true,
+        "scale": 0.001,
+        "unit": "A"
+      },
+      {
+        "name": "sh_batt_temp",
+        "anchor": "frame_start",
+        "offset": 144,
+        "bits": 8,
+        "description": "Battery pack temperature",
+        "signed": true,
+        "unit": "degC"
+      },
+      {
+        "name": "sh_bus_voltage",
+        "anchor": "frame_start",
+        "offset": 152,
+        "bits": 8,
+        "description": "Primary power bus voltage",
+        "scale": 0.1,
+        "unit": "V"
+      },
+      {
+        "name": "sh_xponder_status",
+        "anchor": "frame_start",
+        "offset": 160,
+        "bits": 4,
+        "description": "S-band transponder status",
+        "enum_values": {
+          "0": "XP_OFF",
+          "1": "XP_STANDBY",
+          "2": "XP_ON",
+          "3": "XP_FAULT",
+          "4": "XP_RESET"
+        }
+      },
+      {
+        "name": "sh_heater_status",
+        "anchor": "frame_start",
+        "offset": 164,
+        "bits": 2,
+        "description": "Battery heater state",
+        "enum_values": {
+          "0": "HEATER_AUTO",
+          "1": "HEATER_ON",
+          "2": "HEATER_OFF"
+        }
+      },
+      {
+        "name": "sh_solar_current",
+        "anchor": "frame_start",
+        "offset": 166,
+        "bits": 10,
+        "description": "Solar array output current",
+        "scale": 0.01,
+        "unit": "A"
+      }
+    ]
+  },
+  "ocf": {
+    "presence_flag_bit": 40,
+    "fields": [
+      {
+        "name": "clcw_control_word_type",
+        "offset": 0,
+        "bits": 1
+      },
+      {
+        "name": "clcw_clcw_version",
+        "offset": 1,
+        "bits": 2
+      },
+      {
+        "name": "clcw_status_field",
+        "offset": 3,
+        "bits": 3
+      },
+      {
+        "name": "clcw_copi",
+        "offset": 6,
+        "bits": 1
+      },
+      {
+        "name": "clcw_vcid",
+        "offset": 7,
+        "bits": 3
+      },
+      {
+        "name": "clcw_spare",
+        "offset": 10,
+        "bits": 3
+      },
+      {
+        "name": "clcw_no_rf",
+        "offset": 13,
+        "bits": 1
+      },
+      {
+        "name": "clcw_no_bitlock",
+        "offset": 14,
+        "bits": 1
+      },
+      {
+        "name": "clcw_lockout",
+        "offset": 15,
+        "bits": 1
+      },
+      {
+        "name": "clcw_wait",
+        "offset": 16,
+        "bits": 1
+      },
+      {
+        "name": "clcw_retransmit",
+        "offset": 17,
+        "bits": 1
+      },
+      {
+        "name": "clcw_farm_b_counter",
+        "offset": 18,
+        "bits": 2
+      },
+      {
+        "name": "clcw_report_value",
+        "offset": 20,
+        "bits": 8
+      }
+    ]
+  },
+  "packet": {
+    "idle_apid": 2047,
+    "primary_header": [
+      {
+        "role": "version",
+        "name": "pkt_version",
+        "offset": 0,
+        "bits": 3
+      },
+      {
+        "role": "packet_type",
+        "name": "pkt_type",
+        "offset": 3,
+        "bits": 1,
+        "enum_values": {
+          "0": "TELEMETRY",
+          "1": "TELECOMMAND"
+        }
+      },
+      {
+        "role": "sec_header_flag",
+        "name": "pkt_sec_flag",
+        "offset": 4,
+        "bits": 1,
+        "enum_values": {
+          "0": "ABSENT",
+          "1": "PRESENT"
+        }
+      },
+      {
+        "role": "apid",
+        "name": "pkt_apid",
+        "offset": 5,
+        "bits": 11,
+        "radix": "hex"
+      },
+      {
+        "role": "seq_flags",
+        "name": "pkt_seq_flags",
+        "offset": 16,
+        "bits": 2,
+        "enum_values": {
+          "0": "CONTINUATION",
+          "1": "FIRST_SEGMENT",
+          "2": "LAST_SEGMENT",
+          "3": "UNSEGMENTED"
+        }
+      },
+      {
+        "role": "seq_count",
+        "name": "pkt_seq_count",
+        "offset": 18,
+        "bits": 14
+      },
+      {
+        "role": "packet_length",
+        "name": "pkt_length",
+        "offset": 32,
+        "bits": 16
+      }
+    ],
+    "secondary_by_apid": {
+      "26": {
+        "label": "eps_hk",
+        "secondary_header_octets": 8,
+        "fields": [
+          {
+            "name": "battery_temp",
+            "offset": 0,
+            "bits": 8,
+            "signed": true,
+            "unit": "degC",
+            "description": "Per-packet battery pack temperature"
+          },
+          {
+            "name": "power_mode",
+            "offset": 8,
+            "bits": 4,
+            "enum_values": {
+              "0": "PWR_OFF",
+              "1": "PWR_BATT",
+              "2": "PWR_SUN",
+              "3": "PWR_ECLIPSE"
+            }
+          },
+          {
+            "name": "heater_on",
+            "offset": 12,
+            "bits": 1,
+            "enum_values": {
+              "0": "FALSE",
+              "1": "TRUE"
+            }
+          },
+          {
+            "name": "charger_fault",
+            "offset": 13,
+            "bits": 1,
+            "enum_values": {
+              "0": "FALSE",
+              "1": "TRUE"
+            }
+          },
+          {
+            "name": "spare",
+            "offset": 14,
+            "bits": 2
+          },
+          {
+            "name": "solar_current",
+            "offset": 16,
+            "bits": 16,
+            "scale": 0.01,
+            "unit": "A"
+          },
+          {
+            "name": "load_current",
+            "offset": 32,
+            "bits": 16,
+            "scale": 0.01,
+            "unit": "A"
+          },
+          {
+            "name": "bus_voltage",
+            "offset": 48,
+            "bits": 16,
+            "scale": 0.001,
+            "unit": "V"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,127 @@
+# Example satellite fault tree for the ExampleSat-1 TM frame.
+#
+# Field names reference keys produced by the frame parser:
+#   * primary header fields: spacecraft_id, vcid, sync_flag, ...
+#   * secondary header mission telemetry: sh_batt_temp, sh_bus_voltage, ...
+#   * space packet fields: pkt_<label>_<field>, e.g. pkt_eps_hk_charger_fault
+#
+# String comparisons match enum symbolic labels; all other fields are numeric.
+
+name: ExampleSat-1 Fault Tree v1
+
+rules:
+  - id: EPS_BATT_UNDERVOLTAGE
+    subsystem: EPS
+    title: Battery bus undervoltage
+    severity: critical
+    rationale: Battery voltage below 24 V cannot sustain the unregulated bus.
+    recommendation: Shed non-essential loads and orient solar arrays to the sun.
+    tree:
+      gate: or
+      children:
+        - name: Frame battery voltage low
+          expr: sh_batt_voltage < 24
+        - name: Packet battery telemetry low
+          expr: pkt_eps_hk_bus_voltage < 24
+
+  - id: EPS_BATT_OVERDISCHARGE
+    subsystem: EPS
+    title: Battery over-discharge current
+    severity: major
+    tree:
+      gate: and
+      children:
+        - name: Battery discharging hard
+          expr: sh_batt_current < -8
+        - name: Not in eclipse power mode
+          expr: sh_eps_mode != "EPS_ECLIPSE"
+
+  - id: EPS_CHARGER_FAULT
+    subsystem: EPS
+    title: Battery charge regulator fault
+    severity: major
+    recommendation: Power-cycle the BCR on the next contact and watch sh_batt_voltage.
+    tree:
+      expr: pkt_eps_hk_charger_fault == "TRUE"
+
+  - id: THERMAL_BATT_HOT
+    subsystem: Thermal
+    title: Battery pack over-temperature
+    severity: major
+    rationale: Sustained pack temperature above 45 degC accelerates cell wear.
+    tree:
+      gate: or
+      children:
+        - expr: sh_batt_temp >= 45
+        - expr: pkt_eps_hk_battery_temp >= 45
+
+  - id: THERMAL_BATT_COLD_NO_HEATER
+    subsystem: Thermal
+    title: Cold battery with heater disabled
+    severity: warning
+    tree:
+      gate: and
+      children:
+        - expr: sh_batt_temp < 0
+        - name: heater not commanded on
+          expr: sh_heater_status == "HEATER_OFF"
+
+  - id: THERMAL_HEATER_STUCK_ON
+    subsystem: Thermal
+    title: Heater reported on while pack is warm
+    severity: info
+    tree:
+      gate: and
+      children:
+        - expr: sh_heater_status == "HEATER_ON"
+        - expr: sh_batt_temp > 30
+
+  - id: TTXPONDER_FAULT
+    subsystem: TTAndC
+    title: S-band transponder fault latch
+    severity: critical
+    recommendation: Switch to redundant transponder and re-acquire downlink.
+    tree:
+      gate: or
+      children:
+        - expr: sh_xponder_status == "XP_FAULT"
+        - expr: sh_xponder_status == "XP_RESET"
+
+  - id: SAFE_MODE_UNEXPECTED
+    subsystem: OBC
+    title: Spacecraft entered safe mode
+    severity: warning
+    tree:
+      gate: or
+      children:
+        - expr: sh_sc_mode == "SAFE"
+        - expr: sh_sc_mode == "CONTINGENCY"
+
+  - id: DOWNLINK_LOCKOUT
+    subsystem: TTAndC
+    title: Ground sees COP-1 lockout in CLCW
+    severity: major
+    tree:
+      expr: clcw_lockout == 1
+
+  - id: COMPOUND_POWER_EMERGENCY
+    subsystem: EPS
+    title: Compound power emergency
+    severity: critical
+    rationale: Undervoltage combined with a hot pack and charger fault.
+    tree:
+      gate: at_least
+      threshold: 2
+      children:
+        - expr: sh_batt_voltage < 24
+        - expr: sh_batt_temp >= 45
+        - expr: pkt_eps_hk_charger_fault == "TRUE"
+
+  - id: HEADER_ANOMALY
+    subsystem: OBDH
+    title: Frame header anomaly
+    severity: info
+    tree:
+      gate: not
+      children:
+        - expr: sync_flag == "PACKET"
